@@ -8,13 +8,14 @@ import graql.lang.query.GraqlInsert;
 import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
-import uk.ac.cam.gp.charlie.metamorphic.tests.example_schema_test.PlainGraphSchema;
-import uk.ac.cam.gp.charlie.metamorphic.tests.example_schema_test.Test1;
+import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesSchema;
+import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesTest;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TestRunner {
 
@@ -64,19 +65,26 @@ public class TestRunner {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         TestRunner testRunner = new TestRunner();
 
         /*
         In the future add some more advanced test management
          */
+
         for(int i=0; i<10; ++i) {
+
             testRunner.openTestingSession();
-            SchemaGenerator schema = new PlainGraphSchema();
-            TestGenerator test = new Test1();
+            //SchemaGenerator schema = new PlainGraphSchema();
+            SchemaGenerator schema = new SubEntityAttributesSchema();
+            //TestGenerator test = new Test1();
+            TestGenerator test = new SubEntityAttributesTest();
+            //testRunner.defineSchema(schema, i);
             testRunner.defineSchema(schema, i);
+
             List<List<ConceptMap>> results = testRunner.getTestResults(test, i);
+
             if(test.getTestingProperty().test(results)) {
                 System.out.println("Test "+i+" passed");
             }
@@ -84,6 +92,7 @@ public class TestRunner {
                 System.out.println("Test "+i+" failed");
             }
             testRunner.closeTestingSession();
+
         }
 
     }
