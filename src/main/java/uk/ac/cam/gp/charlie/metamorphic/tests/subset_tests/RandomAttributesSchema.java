@@ -1,4 +1,4 @@
-package uk.ac.cam.gp.charlie.metamorphic.tests.example_schema_test;
+package uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests;
 
 import static graql.lang.Graql.type;
 
@@ -6,7 +6,6 @@ import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
 import graql.lang.statement.StatementType;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 
