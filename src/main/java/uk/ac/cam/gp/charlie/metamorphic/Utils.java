@@ -5,6 +5,8 @@ import grakn.client.concept.Concept;
 import grakn.client.concept.ConceptId;
 import graql.lang.statement.Variable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 public class Utils {
@@ -21,5 +23,20 @@ public class Utils {
             result.add(mapConceptsToIds(cm));
         }
         return result;
+    }
+    public static class DebugPrinter {
+        private static PrintStream ps;
+        private static PrintStream console;
+        public static void start() {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            ps = new PrintStream(b);
+            console = System.out;
+            System.setOut(ps);
+        }
+        public static void print(String s) {
+            System.setOut(console);
+            System.out.println(s);
+            System.setOut(ps);
+        }
     }
 }
