@@ -76,12 +76,10 @@ public class TestRunner {
         for(int i=0; i<10; ++i) {
 
             testRunner.openTestingSession();
-            //SchemaGenerator schema = new PlainGraphSchema();
-            SchemaGenerator schema = new SubEntityAttributesSchema();
             //TestGenerator test = new Test1();
             TestGenerator test = new SubEntityAttributesTest();
             //testRunner.defineSchema(schema, i);
-            testRunner.defineSchema(schema, i);
+            testRunner.defineSchema(test.getSchemaGenerator(), i);
 
             List<List<ConceptMap>> results = testRunner.getTestResults(test, i);
 

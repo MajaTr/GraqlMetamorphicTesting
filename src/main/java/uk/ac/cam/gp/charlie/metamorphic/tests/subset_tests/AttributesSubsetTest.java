@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
 import uk.ac.cam.gp.charlie.metamorphic.properties.SubSetProperty;
+import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
 
 public class AttributesSubsetTest implements TestGenerator {
@@ -55,4 +56,7 @@ public class AttributesSubsetTest implements TestGenerator {
   public Property getTestingProperty() {
     return new SubSetProperty();
   }
+
+  @Override
+  public SchemaGenerator getSchemaGenerator() { return new RandomAttributesSchema(); }
 }

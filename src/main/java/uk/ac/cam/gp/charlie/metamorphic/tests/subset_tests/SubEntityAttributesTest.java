@@ -4,6 +4,7 @@ import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
 import uk.ac.cam.gp.charlie.metamorphic.properties.SubSetProperty;
+import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
 
 import java.util.ArrayList;
@@ -50,4 +51,7 @@ public class SubEntityAttributesTest implements TestGenerator {
     public Property getTestingProperty() {
         return new SubSetProperty();
     }
+
+    @Override
+    public SchemaGenerator getSchemaGenerator() { return new SubEntityAttributesSchema(); }
 }

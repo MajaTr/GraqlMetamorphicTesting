@@ -5,7 +5,9 @@ import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.properties.EqProperty;
 import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
+import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
+import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.RandomAttributesSchema;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,4 +60,7 @@ public class Test1 implements TestGenerator {
     public Property getTestingProperty() {
         return new EqProperty();
     }
+
+    @Override
+    public SchemaGenerator getSchemaGenerator() { return new PlainGraphSchema(); }
 }

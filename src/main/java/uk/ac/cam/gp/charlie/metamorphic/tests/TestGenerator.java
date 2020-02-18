@@ -10,4 +10,5 @@ public interface TestGenerator {
     List<GraqlQuery> generate(int seed);
 
     Property getTestingProperty();
+    SchemaGenerator getSchemaGenerator();
 }
