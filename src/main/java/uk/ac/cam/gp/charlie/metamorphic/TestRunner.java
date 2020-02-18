@@ -9,6 +9,7 @@ import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
+import uk.ac.cam.gp.charlie.metamorphic.tests.rule_eq_test.RandomRuleEqTest;
 import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesSchema;
 import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesTest;
 
@@ -80,7 +81,7 @@ public class TestRunner {
 
             testRunner.openTestingSession();
             //TestGenerator test = new RandomGraphEqualityTest();
-            TestGenerator test = new SubEntityAttributesTest();
+            TestGenerator test = new RandomRuleEqTest();
             //testRunner.defineSchema(schema, i);
             testRunner.defineSchema(test.getSchemaGenerator(), i);
 

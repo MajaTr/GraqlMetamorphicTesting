@@ -5,6 +5,8 @@ import graql.lang.pattern.Pattern;
 import graql.lang.query.GraqlQuery;
 import graql.lang.statement.Statement;
 import graql.lang.statement.StatementInstance;
+import graql.lang.statement.StatementType;
+import uk.ac.cam.gp.charlie.metamorphic.Utils;
 import uk.ac.cam.gp.charlie.metamorphic.abstract_tests.RandomGraph;
 import uk.ac.cam.gp.charlie.metamorphic.general_schemas.PlainGraphSchema;
 import uk.ac.cam.gp.charlie.metamorphic.properties.EqProperty;
@@ -33,6 +35,7 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         List<Pattern> conditions() {
             int rule_size = rule_description.length;
             List<Pattern> conditions = new ArrayList<>();
+            List<Pattern> not_conditions = new ArrayList<>();
             for(int i=0; i<rule_size; ++i) for(int j=0; j<rule_size; ++j) {
                 if(rule_description[i][j] != 2) {
                     StatementInstance condition = var().rel("source", Integer.toString(i)).rel("destination", Integer.toString(j)).isa("edge");
@@ -40,10 +43,12 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
                         conditions.add(condition);
                     }
                     if(rule_description[i][j] == 0) {
-                        conditions.add(not(condition));
+                        not_conditions.add(not(condition));
                     }
                 }
             }
+            conditions.addAll(not_conditions);
+            Utils.DebugPrinter.print(conditions.toString());
             return conditions;
         }
 
@@ -57,7 +62,12 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
                 rule_description[i][j] = random.nextInt(3);
             }
 
+            StatementType something = type("something").sub("relation");
+            for(int i=0; i<rule_size; ++i) {
+                something = something.relates("role"+i );
+            }
 
+            result.add(Graql.define(something));
 
             StatementInstance resulting_rule = var().isa("something");
             for(int i=0; i<rule_size; ++i) {
@@ -71,7 +81,7 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         }
     }
 
-    LocalSchema schema;
+    LocalSchema schema = new LocalSchema();
 
     @Override
     public List<GraqlQuery> generate(int seed) {
