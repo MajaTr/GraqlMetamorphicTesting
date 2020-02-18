@@ -6,6 +6,7 @@ import graql.lang.query.GraqlDelete;
 import graql.lang.query.GraqlGet;
 import graql.lang.query.GraqlInsert;
 import graql.lang.query.GraqlQuery;
+import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesSchema;
@@ -66,8 +67,10 @@ public class TestRunner {
 
 
     public static void main(String[] args) throws IOException {
-
+        DebugPrinter.start();
+        DebugPrinter.print("Program started");
         TestRunner testRunner = new TestRunner();
+
 
         /*
         In the future add some more advanced test management
@@ -84,10 +87,12 @@ public class TestRunner {
             List<List<ConceptMap>> results = testRunner.getTestResults(test, i);
 
             if(test.getTestingProperty().test(results)) {
-                System.out.println("Test "+i+" passed");
+                //System.out.println("Test "+i+" passed");
+                DebugPrinter.print("Test "+i+" passed");
             }
             else {
-                System.out.println("Test "+i+" failed");
+                //System.out.println("Test "+i+" failed");
+                DebugPrinter.print("Test "+i+" failed");
             }
             testRunner.closeTestingSession();
 
