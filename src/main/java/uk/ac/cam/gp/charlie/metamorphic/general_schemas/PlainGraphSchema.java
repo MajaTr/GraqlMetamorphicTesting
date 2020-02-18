@@ -1,4 +1,4 @@
-package uk.ac.cam.gp.charlie.metamorphic.tests.example_schema_test;
+package uk.ac.cam.gp.charlie.metamorphic.general_schemas;
 
 import graql.lang.Graql;
 import static graql.lang.Graql.*;

@@ -76,7 +76,7 @@ public class TestRunner {
         for(int i=0; i<10; ++i) {
 
             testRunner.openTestingSession();
-            //TestGenerator test = new Test1();
+            //TestGenerator test = new RandomGraphEqualityTest();
             TestGenerator test = new SubEntityAttributesTest();
             //testRunner.defineSchema(schema, i);
             testRunner.defineSchema(test.getSchemaGenerator(), i);
