@@ -8,6 +8,7 @@ import uk.ac.cam.gp.charlie.metamorphic.Utils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
 
 public class EqProperty implements Property {
     @Override
