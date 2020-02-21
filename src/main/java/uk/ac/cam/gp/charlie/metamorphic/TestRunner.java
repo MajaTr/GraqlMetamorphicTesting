@@ -6,29 +6,23 @@ import graql.lang.query.GraqlDelete;
 import graql.lang.query.GraqlGet;
 import graql.lang.query.GraqlInsert;
 import graql.lang.query.GraqlQuery;
+import java.util.Random;
 import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
-import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.EquivalentRulesTest;
-import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesSchema;
-import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.SubEntityAttributesTest;
+import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.RulesSubsetTest;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestRunner {
 
-    public static final String testingKeyspace = "testing";
+    public static String testingKeyspace = "k" + Integer.toString(new Random().nextInt(1000000000));
     public static final GraknClient client = new GraknClient("localhost:48555");
     private GraknClient.Session session;
 
     public void openTestingSession() {
-        if(client.keyspaces().retrieve().contains(testingKeyspace)) {
-            client.keyspaces().delete(testingKeyspace);
-        }
         session = client.session(testingKeyspace);
     }
 
@@ -79,9 +73,11 @@ public class TestRunner {
 
         for(int i=0; i<10; ++i) {
 
+            testingKeyspace = "k" + Integer.toString(new Random().nextInt(1000000000));
+
             testRunner.openTestingSession();
             //TestGenerator test = new Test1();
-            TestGenerator test = new EquivalentRulesTest();
+            TestGenerator test = new RulesSubsetTest();
             //testRunner.defineSchema(schema, i);
             testRunner.defineSchema(test.getSchemaGenerator(), i);
 
