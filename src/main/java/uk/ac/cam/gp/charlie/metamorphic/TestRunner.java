@@ -6,10 +6,13 @@ import graql.lang.query.GraqlDelete;
 import graql.lang.query.GraqlGet;
 import graql.lang.query.GraqlInsert;
 import graql.lang.query.GraqlQuery;
+
+import java.util.Date;
 import java.util.Random;
 import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
+import uk.ac.cam.gp.charlie.metamorphic.tests.rule_eq_test.RandomRuleEqTest;
 import uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests.RulesSubsetTest;
 
 import java.io.IOException;
@@ -75,13 +78,15 @@ public class TestRunner {
 
             testingKeyspace = "k" + Integer.toString(new Random().nextInt(1000000000));
 
+            DebugPrinter.print("Opening testing session "+new Date().toString());
             testRunner.openTestingSession();
-            //TestGenerator test = new Test1();
-            TestGenerator test = new RulesSubsetTest();
-            //testRunner.defineSchema(schema, i);
+            DebugPrinter.print("Instantiate test "+new Date().toString());
+            TestGenerator test = new RandomRuleEqTest();
+            DebugPrinter.print("Generate schema "+new Date().toString());
             testRunner.defineSchema(test.getSchemaGenerator(), i);
-
+            DebugPrinter.print("Get results "+new Date().toString());
             List<List<ConceptMap>> results = testRunner.getTestResults(test, i);
+            DebugPrinter.print("Compare results "+new Date().toString());
 
             if(test.getTestingProperty().test(results)) {
                 //System.out.println("Test "+i+" passed");
