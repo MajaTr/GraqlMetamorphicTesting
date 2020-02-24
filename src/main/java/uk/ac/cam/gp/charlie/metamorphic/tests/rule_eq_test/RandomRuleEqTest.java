@@ -28,6 +28,10 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         super(5, 10);
     }
 
+    public RandomRuleEqTest(int n, int m) {
+        super(n, m);
+    }
+
     class LocalSchema extends PlainGraphSchema {
 
         int[][] rule_description;
@@ -41,7 +45,7 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
                     conditions.add(condition);
                 }
             }
-            Utils.DebugPrinter.print(conditions.toString());
+            //Utils.DebugPrinter.print(conditions.toString());
             return conditions;
         }
 
