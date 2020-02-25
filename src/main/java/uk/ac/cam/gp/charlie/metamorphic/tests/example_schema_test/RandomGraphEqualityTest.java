@@ -10,14 +10,16 @@ import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static graql.lang.Graql.var;
 
 public class RandomGraphEqualityTest extends RandomGraph implements TestGenerator {
-    @Override
+
+    public RandomGraphEqualityTest(int n, int m) {
+        super(n, m);
+    }
+
     public List<GraqlQuery> generate(int seed) {
         List<GraqlQuery> result = super.generate(seed);
 

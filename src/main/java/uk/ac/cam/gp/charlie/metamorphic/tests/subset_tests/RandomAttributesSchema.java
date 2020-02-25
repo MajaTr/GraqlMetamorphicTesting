@@ -1,13 +1,14 @@
 package uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests;
 
-import static graql.lang.Graql.type;
-
 import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
 import graql.lang.statement.StatementType;
+import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
-import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
+
+import static graql.lang.Graql.type;
 
 public class RandomAttributesSchema implements SchemaGenerator {
 
