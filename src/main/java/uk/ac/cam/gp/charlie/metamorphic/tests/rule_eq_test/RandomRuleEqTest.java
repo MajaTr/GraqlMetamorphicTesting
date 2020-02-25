@@ -28,6 +28,10 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         super(5, 10);
     }
 
+    public RandomRuleEqTest(int n, int m) {
+        super(n, m);
+    }
+
     class LocalSchema extends PlainGraphSchema {
 
         int[][] rule_description;
@@ -35,20 +39,13 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         List<Pattern> conditions() {
             int rule_size = rule_description.length;
             List<Pattern> conditions = new ArrayList<>();
-            List<Pattern> not_conditions = new ArrayList<>();
             for(int i=0; i<rule_size; ++i) for(int j=0; j<rule_size; ++j) {
-                if(rule_description[i][j] != 2) {
-                    StatementInstance condition = var().rel("source", Integer.toString(i)).rel("destination", Integer.toString(j)).isa("edge");
-                    if(rule_description[i][j] == 1) {
-                        conditions.add(condition);
-                    }
-                    if(rule_description[i][j] == 0) {
-                        not_conditions.add(not(condition));
-                    }
+                StatementInstance condition = var().rel("source", Integer.toString(i)).rel("destination", Integer.toString(j)).isa("edge");
+                if(rule_description[i][j] == 1) {
+                    conditions.add(condition);
                 }
             }
-            conditions.addAll(not_conditions);
-            Utils.DebugPrinter.print(conditions.toString());
+            //Utils.DebugPrinter.print(conditions.toString());
             return conditions;
         }
 
@@ -59,8 +56,17 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
             int rule_size = 2+random.nextInt(2);
             rule_description = new int[rule_size][rule_size];
             for(int i=0; i<rule_size; ++i) for(int j=0; j<rule_size; ++j) {
-                rule_description[i][j] = random.nextInt(3);
+                rule_description[i][j] = random.nextInt(2);
             }
+            for(int i=0; i<rule_size; ++i) {
+                if(random.nextInt(2)==1) {
+                    rule_description[i][random.nextInt(rule_size)] = 1;
+                }
+                else {
+                    rule_description[random.nextInt(rule_size)][i] = 1;
+                }
+            }
+
 
             StatementType something = type("something").sub("relation");
             for(int i=0; i<rule_size; ++i) {
@@ -100,7 +106,6 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         }
 
         result.add(Graql.match(resulting_rule).get(answers[0], Arrays.copyOfRange(answers, 1, answers.length)));
-
 
         result.add(Graql.match(schema.conditions()).get(answers[0], Arrays.copyOfRange(answers, 1, answers.length)));
 
