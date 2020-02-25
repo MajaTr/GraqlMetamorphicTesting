@@ -1,18 +1,17 @@
 package uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests;
 
-import static graql.lang.Graql.var;
-
 import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
-import uk.ac.cam.gp.charlie.metamorphic.properties.EqProperty;
 import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
 import uk.ac.cam.gp.charlie.metamorphic.properties.SubSetProperty;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import static graql.lang.Graql.var;
 
 public class RulesSubsetTest implements TestGenerator {
 
