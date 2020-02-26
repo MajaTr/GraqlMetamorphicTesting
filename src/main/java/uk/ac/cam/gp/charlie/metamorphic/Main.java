@@ -1,6 +1,7 @@
 package uk.ac.cam.gp.charlie.metamorphic;
 
 import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
+import uk.ac.cam.gp.charlie.metamorphic.bug_reports.Bug2;
 import uk.ac.cam.gp.charlie.metamorphic.tests.plain_graph_tests.DisjointComponentsTest;
 import uk.ac.cam.gp.charlie.metamorphic.tests.plain_graph_tests.RandomRuleEqTest;
 
@@ -16,7 +17,7 @@ public class Main {
 
         for(int i=0; i<20; ++i) {
             DebugPrinter.print(new Date().toString());
-            boolean verdict = new SingleTestRunner(new DisjointComponentsTest(10, 6, 3)).runOnSeed(i);
+            boolean verdict = new SingleTestRunner(new Bug2(10, 6)).runOnSeed(i);
             if (verdict) DebugPrinter.print("Test " + i + " passed.");
             else DebugPrinter.print("Test " + i + " failed.");
         }
