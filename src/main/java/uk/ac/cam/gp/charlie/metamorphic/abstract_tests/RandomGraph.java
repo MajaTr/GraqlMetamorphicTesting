@@ -2,8 +2,7 @@ package uk.ac.cam.gp.charlie.metamorphic.abstract_tests;
 
 import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
-import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
-import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
+import uk.ac.cam.gp.charlie.metamorphic.Utils;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
 
 import java.util.ArrayList;
@@ -13,9 +12,7 @@ import java.util.Random;
 import static graql.lang.Graql.var;
 
 public abstract class RandomGraph implements TestGenerator {
-    int n = 3, m = 3;
-
-    public RandomGraph() {}
+    int n, m;
 
     public RandomGraph(int n, int m) {
         this.n = n;
@@ -36,6 +33,7 @@ public abstract class RandomGraph implements TestGenerator {
         for(int i=0; i<m; ++i) {
             int s = random.nextInt(n);
             int t = random.nextInt(n);
+            Utils.DebugPrinter.print(s+" "+t);
             result.add(Graql.match(
                     var("s").isa("vertex").has("label", Integer.toString(s)),
                     var("t").isa("vertex").has("label", Integer.toString(t))

@@ -2,22 +2,13 @@ package uk.ac.cam.gp.charlie.metamorphic;
 
 import grakn.client.GraknClient;
 import grakn.client.answer.ConceptMap;
-import graql.lang.query.GraqlDelete;
-import graql.lang.query.GraqlGet;
-import graql.lang.query.GraqlInsert;
-import graql.lang.query.GraqlQuery;
-
-import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
+import graql.lang.query.*;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
-import uk.ac.cam.gp.charlie.metamorphic.tests.rule_eq_test.RandomRuleEqTest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static graql.lang.Graql.var;
 
 public class SingleTestRunner {
 
@@ -55,7 +46,7 @@ public class SingleTestRunner {
         ArrayList<List<ConceptMap>> results = new ArrayList<>();
         GraknClient.Transaction transaction = session.transaction().write();
         for(GraqlQuery query: test.generate(seed)) {
-            if((query instanceof GraqlInsert) || (query instanceof GraqlDelete)) {
+            if((query instanceof GraqlInsert) || (query instanceof GraqlDelete) || (query instanceof GraqlDefine)) {
                 transaction.execute(query);
             }
             else if(query instanceof GraqlGet) {
@@ -67,6 +58,7 @@ public class SingleTestRunner {
             }
         }
         transaction.commit();
+        Utils.DebugPrinter.print(results.toString());
         return results;
     }
 

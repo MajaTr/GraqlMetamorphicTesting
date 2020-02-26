@@ -1,13 +1,14 @@
 package uk.ac.cam.gp.charlie.metamorphic.general_schemas;
 
 import graql.lang.Graql;
-import static graql.lang.Graql.*;
 import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static graql.lang.Graql.type;
 
 public class PlainGraphSchema implements SchemaGenerator {
     @Override
