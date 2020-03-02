@@ -21,12 +21,8 @@ import static graql.lang.Graql.*;
 
 public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
 
-    public RandomRuleEqTest() {
-        super(5, 10);
-    }
-
-    public RandomRuleEqTest(int n, int m) {
-        super(n, m);
+    public RandomRuleEqTest(int vertices, int edges) {
+        super(vertices, edges);
     }
 
 
@@ -93,8 +89,4 @@ public class RandomRuleEqTest extends RandomGraph implements TestGenerator {
         return new EqProperty();
     }
 
-    @Override
-    public SchemaGenerator getSchemaGenerator() {
-        return new PlainGraphSchema();
-    }
 }

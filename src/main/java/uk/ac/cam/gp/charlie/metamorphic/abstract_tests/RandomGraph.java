@@ -3,6 +3,8 @@ package uk.ac.cam.gp.charlie.metamorphic.abstract_tests;
 import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.Utils;
+import uk.ac.cam.gp.charlie.metamorphic.general_schemas.PlainGraphSchema;
+import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 import uk.ac.cam.gp.charlie.metamorphic.tests.TestGenerator;
 
 import java.util.ArrayList;
@@ -11,12 +13,15 @@ import java.util.Random;
 
 import static graql.lang.Graql.var;
 
+/*
+An abstract class implementing the generation of a random directed graph
+*/
 public abstract class RandomGraph implements TestGenerator {
-    int n, m;
+    int vertices, edges;
 
-    public RandomGraph(int n, int m) {
-        this.n = n;
-        this.m = m;
+    public RandomGraph(int vertices, int edges) {
+        this.vertices = vertices;
+        this.edges = edges;
     }
 
     @Override
@@ -24,15 +29,19 @@ public abstract class RandomGraph implements TestGenerator {
         Random random = new Random(seed);
         ArrayList<GraqlQuery> result = new ArrayList<>();
 
-        for(int i=0; i<n; ++i) {
+        for(int i = 0; i< vertices; ++i) {
             result.add(
                     Graql.insert(var("v"+i).isa("vertex").has("label", Integer.toString(i)))
             );
         }
 
-        for(int i=0; i<m; ++i) {
-            int s = random.nextInt(n);
-            int t = random.nextInt(n);
+
+        /*
+        Each time choose an edge randomly and add it
+         */
+        for(int i = 0; i< edges; ++i) {
+            int s = random.nextInt(vertices);
+            int t = random.nextInt(vertices);
             Utils.DebugPrinter.print(s+" "+t);
             result.add(Graql.match(
                     var("s").isa("vertex").has("label", Integer.toString(s)),
@@ -43,5 +52,10 @@ public abstract class RandomGraph implements TestGenerator {
         }
 
         return result;
+    }
+
+    @Override
+    public SchemaGenerator getSchemaGenerator() {
+        return new PlainGraphSchema();
     }
 }

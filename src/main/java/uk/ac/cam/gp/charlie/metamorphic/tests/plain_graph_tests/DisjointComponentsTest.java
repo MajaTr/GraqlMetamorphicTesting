@@ -2,18 +2,14 @@ package uk.ac.cam.gp.charlie.metamorphic.tests.plain_graph_tests;
 
 import graql.lang.Graql;
 import graql.lang.pattern.Pattern;
-import graql.lang.query.GraqlDefine;
 import graql.lang.query.GraqlQuery;
 import graql.lang.statement.Statement;
 import graql.lang.statement.StatementInstance;
 import graql.lang.statement.StatementType;
 import uk.ac.cam.gp.charlie.metamorphic.abstract_tests.RandomGraph;
-import uk.ac.cam.gp.charlie.metamorphic.general_schemas.PlainGraphSchema;
 import uk.ac.cam.gp.charlie.metamorphic.properties.DisjointAnswersProperty;
 import uk.ac.cam.gp.charlie.metamorphic.properties.Property;
-import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,11 +18,11 @@ import static graql.lang.Graql.*;
 
 public class DisjointComponentsTest extends RandomGraph {
 
-    int c;
+    int componentSize;
 
-    public DisjointComponentsTest(int n, int m, int c) {
-        super(n, m);
-        this.c = c;
+    public DisjointComponentsTest(int vertices, int edges, int componentSize) {
+        super(vertices, edges);
+        this.componentSize = componentSize;
     }
 
     @Override
@@ -47,7 +43,7 @@ public class DisjointComponentsTest extends RandomGraph {
 
 
         StatementType memberRelRelation = type("memberRel").sub("relation");
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             memberRelRelation = memberRelRelation.relates("elem"+i );
         }
         memberRelRelation = memberRelRelation.relates("member");
@@ -56,12 +52,12 @@ public class DisjointComponentsTest extends RandomGraph {
         result.add(Graql.define(memberRelRelation));
 
         List<Pattern> memberRelConditions = new ArrayList<>();
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             memberRelConditions.add(var().rel("v", "var"+i).isa("hasedge"));
         }
 
         StatementInstance memberRelResult = var().isa("memberRel");
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             memberRelResult = memberRelResult.rel("elem"+i,"var"+i);
         }
         memberRelResult = memberRelResult.rel("member", "mem");
@@ -87,32 +83,32 @@ public class DisjointComponentsTest extends RandomGraph {
 
 
         StatementType componentRelation = type("component").sub("relation");
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             componentRelation = componentRelation.relates("elem"+i );
         }
 
         result.add(Graql.define(componentRelation));
 
         List<Pattern> componentConditions = new ArrayList<>();
-        for(int i=0; i<c; ++i) {
-            if(i+1<c) {
+        for(int i = 0; i< componentSize; ++i) {
+            if(i+1< componentSize) {
                 componentConditions.add(var().rel("end", "var"+i).rel("end", "var"+(i+1)).isa("biedge"));
             }
         }
 
         List<Pattern> componentConditionsNot = new ArrayList<>();
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             componentConditionsNot.add(var("var"+i).neq("z"));
         }
         Statement componentConditionsNotMember = var();
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             componentConditionsNotMember = componentConditionsNotMember.rel("elem"+i, "var"+i);
         }
         componentConditionsNotMember = componentConditionsNotMember.rel("member", "y").isa("memberRel");
         
 
         StatementInstance componentResult = var().isa("component");
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             componentResult = componentResult.rel("elem"+i,"var"+i);
         }
 
@@ -126,11 +122,11 @@ public class DisjointComponentsTest extends RandomGraph {
                         .then(componentResult)));
 
         StatementInstance resulting_rule = var().isa("component");
-        for(int i=0; i<c; ++i) {
+        for(int i = 0; i< componentSize; ++i) {
             resulting_rule = resulting_rule.rel("elem"+i,Integer.toString(i));
         }
 
-        String[] answers = new String[c];
+        String[] answers = new String[componentSize];
         for(int i=0; i<answers.length; ++i) {
             answers[i] = Integer.toString(i);
         }
@@ -145,10 +141,5 @@ public class DisjointComponentsTest extends RandomGraph {
     @Override
     public Property getTestingProperty() {
         return new DisjointAnswersProperty();
-    }
-
-    @Override
-    public SchemaGenerator getSchemaGenerator() {
-        return new PlainGraphSchema();
     }
 }

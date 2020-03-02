@@ -16,8 +16,8 @@ import static graql.lang.Graql.var;
 
 public class RandomGraphEqualityTest extends RandomGraph implements TestGenerator {
 
-    public RandomGraphEqualityTest(int n, int m) {
-        super(n, m);
+    public RandomGraphEqualityTest(int vertices, int edges) {
+        super(vertices, edges);
     }
 
     public List<GraqlQuery> generate(int seed) {
@@ -44,7 +44,4 @@ public class RandomGraphEqualityTest extends RandomGraph implements TestGenerato
     public Property getTestingProperty() {
         return new EqProperty();
     }
-
-    @Override
-    public SchemaGenerator getSchemaGenerator() { return new PlainGraphSchema(); }
 }
