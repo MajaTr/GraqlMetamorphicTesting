@@ -27,28 +27,44 @@ public class AttributesSubsetTest implements TestGenerator {
   public List<GraqlQuery> generate(int seed) {
     Random random = new Random(seed);
     List<GraqlQuery> result = new ArrayList<>();
+
+    //adding the vertices
+
     for (int i = 0; i < numInserts; i++) {
       StatementInstance si = var("v" + i).isa("vertex");
       for (int j = 0; j < randomAttributesSchema.getNumAttributes(); j++) {
+
+        //each vertex will have each attribute with 50% chance
+
         if (random.nextBoolean()) {
           si = si.has("label" + j, "label" + j);
         }
       }
       result.add(Graql.insert(si));
     }
+
+    //randomly choosing 2 different attributes
+
     int attribute1 = random.nextInt(randomAttributesSchema.getNumAttributes());
     int attribute2 = random.nextInt(randomAttributesSchema.getNumAttributes());
     while (attribute1 == attribute2) {
       attribute2 = random.nextInt(randomAttributesSchema.getNumAttributes());
     }
 
+    //get all vertices which have both of the chosen attributes
+
     result.add(Graql.match(
         var("v").isa("vertex").has("label" + attribute1, var("a1")).
             has("label" + attribute2, var("a2"))
     ).get("v"));
+
+    //get all vertices which have the first chosen attribute
+
     result.add(Graql.match(
         var("v").isa("vertex").has("label" + attribute1, var("a1"))
     ).get("v"));
+
+    //clearly, the first answer set should be a subset of the second one
 
     return result;
   }

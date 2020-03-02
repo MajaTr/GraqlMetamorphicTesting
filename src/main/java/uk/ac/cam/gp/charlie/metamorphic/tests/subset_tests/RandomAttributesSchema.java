@@ -24,6 +24,9 @@ public class RandomAttributesSchema implements SchemaGenerator {
 
   @Override
   public List<GraqlQuery> generate(int seed) {
+
+    //This is a simple schema with 1 entity which has numAttributes many attributes.
+
     List<GraqlQuery> result = new ArrayList<>();
     for (int i = 0; i < numAttributes; i++) {
       result.add(Graql.define(type("label" + i).sub("attribute").datatype("string")));

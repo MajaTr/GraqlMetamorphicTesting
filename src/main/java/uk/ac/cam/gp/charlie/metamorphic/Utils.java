@@ -35,6 +35,12 @@ public class Utils {
         }
         return result;
     }
+
+    /*
+    This class helps hiding debug messages from the Grakn servers.
+    We use DebugPrinter.print instead of System.out.println in
+    every part of our code.
+     */
     public static class DebugPrinter {
         private static PrintStream ps;
         private static PrintStream console;

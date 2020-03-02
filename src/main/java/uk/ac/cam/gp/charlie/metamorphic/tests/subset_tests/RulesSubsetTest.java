@@ -24,11 +24,23 @@ public class RulesSubsetTest implements TestGenerator {
     Random random = new Random(seed);
     List<GraqlQuery> result = new ArrayList<>();
 
+    //creating a tree
+
+    //inserting numNodes many nodes / people
+
     for (int i = 0; i < numNodes; i++) {
       result.add(Graql.parse("insert $x isa person, has name \"i" + i + "\";"));
     }
 
+    //creating the edges
+
     for (int i = 1; i < numNodes; i++) {
+
+      /*
+      i0 is the root, and every node's parent is randomly chosen
+      from the nodes which have a smaller ID.
+       */
+
       int parent = random.nextInt(i);
       result.add(Graql.match(
           var("x").isa("person").has("name", "i" + parent),
@@ -37,6 +49,17 @@ public class RulesSubsetTest implements TestGenerator {
           var("edge").isa("parentship").rel("parent", "x").rel("child", "y")
       ));
     }
+
+    /*
+    This test relies on the following fact:
+    An uncle can be deduced 2 ways:
+    - parent of a cousin
+    - sibling of a parent
+    However, the second one should give us all the uncles, while the first one
+    will just give a subset of them, namely the uncles who also have children.
+    The test could also be extended to verify other relations between nodes in a tree
+    with the help of rules.
+     */
 
     result.add(Graql.match(
         var("C").isa("cousins").rel(var("c")).rel(var("c2")),
