@@ -1,9 +1,12 @@
+/*
+    Simple schema definition with an entity called "animal" with "name" as an attribute
+    and 2 subentities, "dog" and "cat".
+ */
 package uk.ac.cam.gp.charlie.metamorphic.tests.subset_tests;
 
 import graql.lang.Graql;
 import graql.lang.query.GraqlQuery;
 import uk.ac.cam.gp.charlie.metamorphic.tests.SchemaGenerator;
-
 import java.util.Arrays;
 import java.util.List;
 

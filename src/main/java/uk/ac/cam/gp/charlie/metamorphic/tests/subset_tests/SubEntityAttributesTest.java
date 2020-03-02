@@ -20,6 +20,7 @@ public class SubEntityAttributesTest implements TestGenerator {
         Random random = new Random(seed);
         int nAnimals = 20;
 
+        //Insert nAnimals animals, by randomly choosing whether the are dogs or cats.
         for(int i = 0; i < nAnimals; i++){
             String animalType = "dog";
             if(random.nextBoolean()){
@@ -31,6 +32,8 @@ public class SubEntityAttributesTest implements TestGenerator {
                     )
             );
         }
+        //The framework will test whether the result of the query asking for dogs with a specific name
+        // is a subset of the result of querying for animals having that name.
         result.add(
                 Graql.match(
                         var("d").isa("dog").has("name", var("n"))
