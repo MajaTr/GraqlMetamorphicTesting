@@ -10,12 +10,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/*
+The class which is concerned with actually running a test, i.e. taking care of the connection with the Grakn server.
+
+The constructor's argument is an instance of the TestGenerator which we want to run.
+
+Tests are run each in different keyspaces in order to not be bothered with cleanup.
+However that comes with a substantial performance cost due to keyspace creation taking a few seconds
+
+runOnSeed(seed) runs the underlying test with the provided seed, taking care of communication with the server.
+Returns a boolean of whether a test has passed or not.
+*/
 public class SingleTestRunner {
 
     private final String testingKeyspace;
+
     private static int keyspace_id = 0;
     private static final GraknClient client = new GraknClient("localhost:48555");
+    //Generate keyspace names as testing<program start date>_<sequence number>
     private static final String keyspace_prefix = "testing"+new Date().getTime()+"_";
+
     private GraknClient.Session session;
 
     private TestGenerator test;
@@ -31,7 +45,6 @@ public class SingleTestRunner {
 
     public void closeTestingSession() {
         session.close();
-
     }
 
     public void defineSchema(SchemaGenerator gen, int seed) {
@@ -41,6 +54,7 @@ public class SingleTestRunner {
         }
         transaction.commit();
     }
+
 
     public List<List<ConceptMap>> getTestResults(int seed) {
         ArrayList<List<ConceptMap>> results = new ArrayList<>();

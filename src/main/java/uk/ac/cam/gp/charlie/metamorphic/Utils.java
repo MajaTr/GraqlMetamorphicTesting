@@ -9,7 +9,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.*;
 
+
+/*
+Just a set of random functions we found useful to have globally.
+*/
+
+
 public class Utils {
+    /*
+    In order to be able to compare results from different transactions,
+    a ConceptMap has to be stripped to a Map<Variable, ConceptId>.
+     */
+
     public static Map<Variable, ConceptId> mapConceptsToIds(ConceptMap cm) {
         HashMap<Variable, ConceptId> result = new HashMap<>();
         for(Map.Entry<Variable, Concept> entry: cm.map().entrySet()) {
