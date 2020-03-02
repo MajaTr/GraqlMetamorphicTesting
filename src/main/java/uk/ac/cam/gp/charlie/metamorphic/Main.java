@@ -1,7 +1,7 @@
 package uk.ac.cam.gp.charlie.metamorphic;
 
 import uk.ac.cam.gp.charlie.metamorphic.Utils.DebugPrinter;
-import uk.ac.cam.gp.charlie.metamorphic.bug_reports.Bug2;
+import uk.ac.cam.gp.charlie.metamorphic.tests.plain_graph_tests.RandomRuleEqTest;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ public class Main {
 
         for(int i=0; i<20; ++i) {
             DebugPrinter.print(new Date().toString());
-            boolean verdict = new SingleTestRunner(new Bug2(3, 3)).runOnSeed(i);
+            boolean verdict = new SingleTestRunner(new RandomRuleEqTest(3, 3)).runOnSeed(i);
             if (verdict) DebugPrinter.print("Test " + i + " passed.");
             else DebugPrinter.print("Test " + i + " failed.");
         }
