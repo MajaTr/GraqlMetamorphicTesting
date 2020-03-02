@@ -16,6 +16,21 @@ import java.util.List;
 
 import static graql.lang.Graql.*;
 
+/*
+This isn't much of a test, more like an attempt of a test.
+Note: I found a bug in Graql when debugging the test.
+
+The idea here is to express "these vertices form a connected component" using Graql rules.
+If everything works, then the sets returned when queried for connected components
+would be disjoint.
+
+Note however that since I wanted to make the component size settable,
+the code is somewhat difficult to read due to all the loops.
+Moreover, since it cannot be meaningfully run yet due to a bug found,
+I decided that explaining in detail what it does is not worth it.
+ */
+
+@Deprecated
 public class DisjointComponentsTest extends RandomGraph {
 
     int componentSize;
@@ -35,12 +50,18 @@ public class DisjointComponentsTest extends RandomGraph {
                 var().rel("source", "x").rel("destination", "y").isa("edge")
         ).then(var().isa("biedge").rel("end", "x").rel("end", "y"))));
 
+
+
         result.add(Graql.define(type("hasedge").sub("relation").relates("v")));
         result.add(Graql.define(type("hasedge-rule").sub("rule").when(
                 var().rel("end", "x").rel("end", "y").isa("biedge")
         ).then(var().isa("hasedge").rel("v", "x"))));
 
 
+        /*
+        The following part of code defines the member relation.
+
+         */
 
         StatementType memberRelRelation = type("memberRel").sub("relation");
         for(int i = 0; i< componentSize; ++i) {
@@ -62,7 +83,7 @@ public class DisjointComponentsTest extends RandomGraph {
         }
         memberRelResult = memberRelResult.rel("member", "mem");
 
-        for(int i=0; i<1; ++i) {
+        for(int i=0; i<componentSize; ++i) {
             result.add(Graql.define(
                     type("memberRel-rule"+i).sub("rule").when(and(
                             and(memberRelConditions),
@@ -73,6 +94,9 @@ public class DisjointComponentsTest extends RandomGraph {
         }
 
 
+        /*
+        A query I added for debugging and which turned out to give unexpected results.
+
         result.add(Graql.match(
                 var().rel("v", "x").isa("hasedge"),
                 var().rel("v", "y").isa("hasedge"),
@@ -80,7 +104,11 @@ public class DisjointComponentsTest extends RandomGraph {
                 var().rel("v", "t").isa("hasedge"),
                 var().rel("elem0", "x").rel("elem1", "y").rel("elem2", "z").rel("member", "t").isa("memberRel")
         ).get("x", "y", "z", "t"));
+        */
 
+        /*
+        The following code defines the connected component relation.
+         */
 
         StatementType componentRelation = type("component").sub("relation");
         for(int i = 0; i< componentSize; ++i) {

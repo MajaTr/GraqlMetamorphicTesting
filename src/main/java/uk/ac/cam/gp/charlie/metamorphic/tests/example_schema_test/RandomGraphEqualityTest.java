@@ -14,6 +14,12 @@ import java.util.List;
 
 import static graql.lang.Graql.var;
 
+/*
+A demo test checking whether the same query asked twice gives the same results.
+
+ */
+
+
 public class RandomGraphEqualityTest extends RandomGraph implements TestGenerator {
 
     public RandomGraphEqualityTest(int vertices, int edges) {
