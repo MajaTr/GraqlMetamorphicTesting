@@ -10,6 +10,9 @@ public class TransitivitySchema implements SchemaGenerator {
 
   @Override
   public List<GraqlQuery> generate(int seed) {
+
+    //This is a simple schema with 1 entity, 1 relation and a transitivity rule.
+
     List<GraqlQuery> result = new ArrayList<>();
     result.add(Graql.parse("define label sub attribute, datatype string;"));
     result.add(Graql.parse("define connection sub relation, relates start, relates end;"));

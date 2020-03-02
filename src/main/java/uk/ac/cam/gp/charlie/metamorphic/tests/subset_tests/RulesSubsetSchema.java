@@ -11,6 +11,12 @@ public class RulesSubsetSchema implements SchemaGenerator {
 
   @Override
   public List<GraqlQuery> generate(int seed) {
+
+    /*
+    This is a schema with a person entity, a parent relation, and other relations which
+    are deduced from the structure with the help of rules.
+     */
+
     List<GraqlQuery> result = new ArrayList<>();
     result.add(Graql.parse("define parentship sub relation, relates parent, relates child;"));
     result.add(Graql.parse("define siblings sub relation, relates child;"));

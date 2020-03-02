@@ -26,9 +26,15 @@ public class TransitivityTest implements TestGenerator {
   public List<GraqlQuery> generate(int seed) {
     Random random = new Random(seed);
     List<GraqlQuery> result = new ArrayList<>();
+
+    //adding nodes many vertices
+
     for (int i = 0; i < nodes; i++) {
       result.add(Graql.insert(var("x").isa("vertex").has("label", "v" + i)));
     }
+
+    //inserting inserts many edges
+
     for (int i = 0; i < inserts; i++) {
       int v1 = random.nextInt(nodes);
       int v2 = random.nextInt(nodes);
@@ -41,6 +47,10 @@ public class TransitivityTest implements TestGenerator {
       ).insert(
           var("edge").isa("connection").rel("start", "x").rel("end", "y")
       ));
+
+      //adding a get query (with a defined probability) which asks for the component of v0
+      //the results for these queries should be sets that are increasing in size and containing each other
+
       if (random.nextDouble() < getQueryProbability) {
         result.add(Graql.match(var("x").isa("vertex"),
             var("c").isa("connection").rel("start", "v0").rel("end", var("x")))
